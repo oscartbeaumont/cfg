@@ -62,6 +62,7 @@ SetWorkingDir %A_ScriptDir%
 	NumpadClear::Run chrome.exe "https://google.com"
 	NumpadRight::Run chrome.exe "https://github.com"
 	NumpadUp::Run "onenote:https://bcgs-my.sharepoint.com/personal/oscar_beaumont_student_bcgs_wa_edu_au/Documents/School`%202020/General.one#Home`&section-id={D4C56A79-C2DD-4348-A2A9-3296D29270B4}&page-id={DEBBF322-6314-470B-80BC-D9889D68F318}`&end"
+	NumpadPgUp::Run fb-messenger://
 	
 	Insert:: showSpotifyButton()
 	Home:: hideSpotifyButton()
