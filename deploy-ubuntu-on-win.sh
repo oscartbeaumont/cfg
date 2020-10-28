@@ -12,6 +12,7 @@ sudo mv go /usr/local
 rm -rf go.tar.gz
 
 # ~/.bashrc & /root/.bashrc
+    # Go Lang
     export GOROOT=/usr/local/go
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
@@ -20,12 +21,13 @@ mkdir $GOPATH
 
 # SQLC
 wget -O sqlc.tgz https://bin.equinox.io/c/jF3LhnJK5xn/sqlc-stable-linux-amd64.tgz
-tar -xvf go.tar.gz
+tar -xvf sqlc.tgz
 sudo mv sqlc /usr/local/bin
+rm -rf sqlc.tgz
 
 # Nodejs
 curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 # NPM Usefull Packages
-npm i -g npm-check-updates serve
+sudo npm i -g npm-check-updates serve
