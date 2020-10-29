@@ -5,6 +5,9 @@
 touch /home/oscar/.hushlogin
 sudo apt-get update && sudo apt-get -y upgrade
 
+# Basic Tools
+sudo apt-get -y install build-essential
+
 # Go Lang
 wget -O go.tar.gz https://dl.google.com/go/go1.15.3.linux-amd64.tar.gz
 tar -xvf go.tar.gz
