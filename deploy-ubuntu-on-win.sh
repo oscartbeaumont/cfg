@@ -6,7 +6,7 @@ touch /home/oscar/.hushlogin
 sudo apt-get update && sudo apt-get -y upgrade
 
 # Basic Tools
-sudo apt-get -y install build-essential
+sudo apt-get -y install build-essential python3-pip
 
 # Go Lang
 wget -O go.tar.gz https://dl.google.com/go/go1.15.3.linux-amd64.tar.gz
@@ -19,6 +19,9 @@ rm -rf go.tar.gz
     export GOROOT=/usr/local/go
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+    
+    # Python 3
+    export PATH=/home/oscar/.local/bin:$PATH
 
 mkdir $GOPATH
 
