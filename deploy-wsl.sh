@@ -72,13 +72,32 @@ chmod +x /usr/bin/pq-start
 # Allow nonroot users to bind to privileged ports
 sudo sysctl -w net.ipv4.ip_unprivileged_port_start=0
 
+# Configure Git Identity
+git config --global user.email "oscar@otbeaumont.me"
+git config --global user.name "Oscar Beaumont"
+
+# Cirrus Dev Proxy
+cat > /usr/bin/devproxy << EOL
+#!/bin/sh
+echo 'Starting Cirrus Development Proxy'
+ssh -N -R 0.0.0.0:10000:localhost:5000 -R 0.0.0.0:10001:localhost:8080 cirrus
+EOL
+chmod +x /usr/bin/pq-start
+
 ######################################################
 ###################### Optional ######################
 ######################################################
 
 # Work Environment -> Google Cloud Functions Yarn Monorepo
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+sudo apt-get -y install apt-transport-https ca-certificates gnupg
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+sudo apt-get update && sudo apt-get -y install google-cloud-sdk
+
 sudo apt-get -y install default-jre # This is needed by Firestore Emulator
 nvm install 12.18.4
 nvm use 12.18.4
 npm install -g yarn firebase-tools
-firebase login
+
+firebase login # TODO: Interaction required
+gcloud init # TODO: Interaction required + Quitted after login prompt
