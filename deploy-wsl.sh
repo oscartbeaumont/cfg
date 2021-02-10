@@ -31,6 +31,9 @@ tar -xvf sqlc.tgz
 sudo mv sqlc /usr/local/bin
 rm -rf sqlc.tgz
 
+# Go Tools
+go get github.com/fzipp/gocyclo/cmd/gocyclo
+
 # Node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 nvm install node
