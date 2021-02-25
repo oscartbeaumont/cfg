@@ -15,3 +15,9 @@ Follow the guide [here](https://docs.microsoft.com/en-us/windows/wsl/install-win
 ```bash
 ./deploy-wsl.sh
 ```
+
+# Usefull Commands
+
+```powershell
+robocopy SOURCE DESTINATION /mir /xd node_modules
+```
