@@ -38,7 +38,7 @@ go get github.com/fzipp/gocyclo/cmd/gocyclo
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 nvm install node
 nvm install-latest-npm
-npm i -g npm-check-updates serve
+npm i -g npm-check-updates serve netlify-cli
 
 # Electron libraries
 sudo apt-get -y install libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev
