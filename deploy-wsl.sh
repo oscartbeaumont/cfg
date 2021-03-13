@@ -34,6 +34,12 @@ rm -rf sqlc.tgz
 # Go Tools
 go get github.com/fzipp/gocyclo/cmd/gocyclo
 
+# Lego ACME Client
+wget -O lego.tgz https://github.com/go-acme/lego/releases/download/v4.3.1/lego_v4.3.1_linux_amd64.tar.gz
+tar -xvf lego.tgz
+sudo mv lego /usr/local/bin
+rm lego.tgz CHANGELOG.md LICENSE
+
 # Node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 nvm install node
