@@ -19,7 +19,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 sudo apt-get -y install build-essential python3-pip
 
 # Go Lang
-wget -O go.tar.gz https://golang.org/dl/go1.16.linux-amd64.tar.gz
+wget -O go.tar.gz https://golang.org/dl/go1.16.2.linux-amd64.tar.gz
 tar -xvf go.tar.gz
 sudo mv go /usr/local
 rm -rf go.tar.gz
@@ -39,6 +39,9 @@ wget -O lego.tgz https://github.com/go-acme/lego/releases/download/v4.3.1/lego_v
 tar -xvf lego.tgz
 sudo mv lego /usr/local/bin
 rm lego.tgz CHANGELOG.md LICENSE
+
+# Java -> For Uni + eeded by Firestore Emulator
+sudo apt-get -y install default-jre
 
 # Node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
@@ -103,7 +106,6 @@ sudo apt-get -y install apt-transport-https ca-certificates gnupg
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
 sudo apt-get update && sudo apt-get -y install google-cloud-sdk
 
-sudo apt-get -y install default-jre # This is needed by Firestore Emulator
 nvm install 12.18.4
 nvm use 12.18.4
 npm install -g yarn firebase-tools

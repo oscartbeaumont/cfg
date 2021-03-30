@@ -30,7 +30,7 @@
                 "guid": "{9c40c70b-a94e-48bb-b34d-4f23f46ddd35}",
                 "hidden": false,
                 "name": "Curtin CS Lab",
-                "icon": "🖥️",
+                "icon": "☁️",
                 "commandline": "wsl.exe ssh curtin-cs-lab"
             },
             {
