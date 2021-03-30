@@ -27,6 +27,13 @@
                 "commandline": "wsl.exe ssh cirrus"
             },
             {
+                "guid": "{9c40c70b-a94e-48bb-b34d-4f23f46ddd35}",
+                "hidden": false,
+                "name": "Curtin CS Lab",
+                "icon": "🖥️",
+                "commandline": "wsl.exe ssh curtin-cs-lab"
+            },
+            {
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "name": "Windows PowerShell",
                 "commandline": "powershell.exe",
