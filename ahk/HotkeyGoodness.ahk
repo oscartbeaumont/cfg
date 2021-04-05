@@ -24,13 +24,15 @@ UNI_ONENOTE_URI = "onenote://#base-path=https://d.docs.live.net/4af92b359279dbe8
 :*:04@::0475424548
 
 ; Application Quick Launch
-^1::focusOrLaunch("ahk_exe WindowsTerminal.exe", "shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App")
-^2::focusOrLaunch("ahk_exe Code.exe", "C:\Program Files\Microsoft VS Code\Code.exe")
-^3::focusOrLaunch("ahk_exe GitHubDesktop.exe", "C:\Users\oscar\AppData\Local\GitHubDesktop\GitHubDesktop.exe")
-^4::focusOrLaunch("ahk_exe Postman.exe", "C:\Users\oscar\AppData\Local\Postman\Postman.exe")
+#if GetKeyState("NumLock", "T") = 0
+	^1::focusOrLaunch("ahk_exe WindowsTerminal.exe", "shell:AppsFolder\Microsoft.WindowsTerminal_8wekyb3d8bbwe!App")
+	^2::focusOrLaunch("ahk_exe Code.exe", "C:\Program Files\Microsoft VS Code\Code.exe")
+	^3::focusOrLaunch("ahk_exe GitHubDesktop.exe", "C:\Users\oscar\AppData\Local\GitHubDesktop\GitHubDesktop.exe")
+	^4::focusOrLaunch("ahk_exe Postman.exe", "C:\Users\oscar\AppData\Local\Postman\Postman.exe")
+#If
 
 ; Window Management Helpers
-#if isDesktop() = true
+#if (isDesktop() = true) && (GetKeyState("NumLock", "T") = 0)
 	^Up::WinMaximize, A
 	^Down::WinMinimize, A
 	
