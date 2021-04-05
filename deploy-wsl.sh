@@ -19,7 +19,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 sudo apt-get -y install build-essential python3-pip
 
 # Go Lang
-wget -O go.tar.gz https://golang.org/dl/go1.16.2.linux-amd64.tar.gz
+wget -O go.tar.gz https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
 tar -xvf go.tar.gz
 sudo mv go /usr/local
 rm -rf go.tar.gz
