@@ -41,7 +41,7 @@ sudo mv lego /usr/local/bin
 rm lego.tgz CHANGELOG.md LICENSE
 
 # Java -> For Uni + eeded by Firestore Emulator
-sudo apt-get -y install default-jre
+sudo apt-get -y install default-jdk
 
 # Node
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
