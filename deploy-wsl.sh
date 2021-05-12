@@ -40,6 +40,12 @@ tar -xvf lego.tgz
 sudo mv lego /usr/local/bin
 rm lego.tgz CHANGELOG.md LICENSE
 
+# Jaeger
+wget -O jaeger.tgz https://github.com/jaegertracing/jaeger/releases/download/v1.22.0/jaeger-1.22.0-linux-amd64.tar.gz
+tar -xvf jaeger.tgz
+sudo cp -r jaeger-1.22.0-linux-amd64/. /usr/local/bin
+rm -rf jaeger.tgz jaeger-1.22.0-linux-amd64/
+
 # Java -> For Uni + eeded by Firestore Emulator
 sudo apt-get -y install default-jdk
 
