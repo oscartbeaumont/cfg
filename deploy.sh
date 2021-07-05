@@ -53,6 +53,9 @@ npm i -g npm-check-updates serve netlify-cli yarn
 # Flutter
 sudo snap install flutter --classic
 sudo snap install android-studio --classic
+flutter config --enable-windows-desktop
+flutter config --enable-macos-desktop
+flutter config --enable-linux-desktop
 
 # Docker
 sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
