@@ -10,10 +10,10 @@ sudo apt-get upgrade
 sudo apt-get -y install vim git curl build-essential libssl-dev
 
 # Install Non-snap Software
-sudo apt-get install tilda baobab
+sudo apt-get -y install tilda baobab virtualbox
 
 # Install Core Software
-sudo snap install spotify bitwarden onenote-desktop p3x-onenote caprine libreoffice # TODO: Chose OneNote client
+sudo snap install spotify bitwarden onenote-desktop p3x-onenote caprine libreoffice multipass # TODO: Chose OneNote client
 sudo snap install slack --classic
 
 # TODO: Install Discord as deb for better IPC support (used by Vscode presence feature)
@@ -28,11 +28,17 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
 
+# Kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
 # Terraform
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt-get update && sudo apt-get install terraform
+
+# TFLint
+curl https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
 
 # Configure Git Identity
 git config --global user.email "oscar@otbeaumont.me"
@@ -140,3 +146,6 @@ gsettings set org.gnome.shell.extensions.desktop-icons show-home false
 
 # Manual Setup SSH Keys
 # ssh-keygen -t ed25519 -C "oscar@otbeaumont.me"
+
+# Configure non-root port
+sudo sysctl net.ipv4.ip_unprivileged_port_start=443
