@@ -117,6 +117,11 @@ dconf write /org/gnome/shell/extensions/dash-to-dock/show-mounts false
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
 
+# Sound switcher
+sudo add-apt-repository -y ppa:yktooo/ppa
+sudo apt-get -y update
+sudo apt-get install -y indicator-sound-switcher
+
 # Configure Nautilus Sidebar
 # Comment out the unwanted bookmarks in ~/.config/user-dirs.dirs
 echo "enabled=false" > ~/.config/user-dirs.conf
