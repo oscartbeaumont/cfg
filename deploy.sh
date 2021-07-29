@@ -113,6 +113,10 @@ sudo ufw allow ssh
 # Hide mounted drives from dock
 dconf write /org/gnome/shell/extensions/dash-to-dock/show-mounts false
 
+# Configure Desktop
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+
 # Configure Nautilus Sidebar
 # Comment out the unwanted bookmarks in ~/.config/user-dirs.dirs
 echo "enabled=false" > ~/.config/user-dirs.conf
