@@ -56,6 +56,7 @@ cargo install cargo-watch
 cargo install cargo-expand
 cargo install sqlx-cli
 cargo install cargo-outdated
+cargo install cargo-edit
 
 # Go Lang
 snap install --classic go
