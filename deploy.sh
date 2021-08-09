@@ -59,12 +59,10 @@ snap install --classic go
 sudo snap install sqlc
 
 # Node
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-nvm install node
-nvm install-latest-npm
-npm i -g npm-check-updates serve netlify-cli yarn
+curl https://get.volta.sh | bash
+export PATH="$HOME/.volta/bin:$PATH"
+volta install node@16
+npm i -g npm-check-updates serve netlify-cli yarn typescript pnpm
 
 # Flutter
 sudo snap install flutter --classic
