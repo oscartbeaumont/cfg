@@ -52,11 +52,7 @@ rustup default nightly
 rustup default stable
 
 # Rust tools
-cargo install cargo-watch
-cargo install cargo-expand
-cargo install sqlx-cli
-cargo install cargo-outdated
-cargo install cargo-edit
+cargo install cargo-watch cargo-edit cargo-expand cargo-outdated sqlx-cli 
 
 # Go Lang
 snap install --classic go
