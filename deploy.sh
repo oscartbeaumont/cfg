@@ -13,7 +13,7 @@ sudo apt-get -y install vim git curl build-essential libssl-dev
 sudo apt-get -y install tilda baobab virtualbox
 
 # Install Core Software
-sudo snap install spotify bitwarden onenote-desktop p3x-onenote caprine libreoffice multipass thunderbird # TODO: Chose OneNote client
+sudo snap install spotify todoist bitwarden onenote-desktop p3x-onenote caprine libreoffice multipass thunderbird # TODO: Chose OneNote client
 sudo snap install slack --classic
 
 # TODO: Install Discord as deb for better IPC support (used by Vscode presence feature)
