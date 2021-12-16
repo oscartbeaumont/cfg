@@ -1,8 +1,0 @@
-Host cirrus
-	HostName cirrus.otbeaumont.me
-	User oscar
-	Port 2222
-
-Host curtin-cs-lab
-	HostName lab218-d02.cs.curtin.edu.au
-	User 20556729

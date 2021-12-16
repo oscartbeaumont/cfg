@@ -1,49 +1,52 @@
-#!/bin/sh
+#!/bin/bash
 
-# Install Chrome from internet and DB Beaver from Software Store
+# https://gist.github.com/ourownstory/728e5894b9b86d6b21579fd9ded4c30e
+# Install Chrome from website directly
+
+# sudo xset m 1 1
 
 # Upgrade System
-sudo apt-get update
-sudo apt-get upgrade
-
-# Install Basic System Tools
-sudo apt-get -y install vim git curl build-essential libssl-dev
-
-# Install Non-snap Software
-sudo apt-get -y install tilda baobab virtualbox
-
-# Install Core Software
-sudo snap install spotify todoist bitwarden onenote-desktop p3x-onenote caprine libreoffice multipass thunderbird # TODO: Chose OneNote client
-sudo snap install slack --classic
-
-# TODO: Install Discord as deb for better IPC support (used by Vscode presence feature)
-
-# Install Developer Tools
-sudo snap install code --classic
-sudo snap install postman
-sudo snap install --edge gh && snap connect gh:ssh-keys
-
-# AWS CLI
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-
-# Kubectl
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo mv kubectl /usr/bin
-
-# Terraform
-sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
-curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt-get update && sudo apt-get install terraform
-
-# TFLint
-curl https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+apt-get update
+apt-get -y upgrade
 
 # Configure Git Identity
 git config --global user.email "oscar@otbeaumont.me"
 git config --global user.name "Oscar Beaumont"
+
+# Install Basic System Tools
+apt-get -y install htop vim git curl build-essential libssl-dev apt-transport-https ca-certificates wavemon tmux gparted snapd openssh-server gnupg2 scdaemon
+
+# Install Non-snap Software
+apt-get -y install tilda virtualbox
+
+# Common Applications
+flatpak install -y --noninteractive flathub com.spotify.Client
+flatpak install -y --noninteractive flathub com.discordapp.Discord
+flatpak install -y --noninteractive flathub com.sindresorhus.Caprine
+flatpak install -y --noninteractive flathub com.bitwarden.desktop
+flatpak install -y --noninteractive flathub com.todoist.Todoist
+flatpak install -y --noninteractive flathub com.slack.Slack
+flatpak install -y --noninteractive flathub md.obsidian.Obsidian
+flatpak install -y --noninteractive flathub org.mozilla.Thunderbird
+
+# Developer Tools
+snap install code --classic
+flatpak install -y --noninteractive flathub com.getpostman.Postman
+flatpak install -y --noninteractive flathub io.dbeaver.DBeaverCommunity
+snap install kubectl --classic
+snap install go --classic
+snap install docker
+snap install sqlc
+
+# Random Tools
+flatpak install -y --noninteractive flathub org.nmap.Zenmap
+
+# Syncthing
+curl -s -o /usr/share/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
+echo "deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable" | tee /etc/apt/sources.list.d/syncthing.list
+apt-get update
+apt-get -y install syncthing
+cp /usr/share/applications/syncthing-start.desktop ~/.config/autostart/syncthing-start.desktop
 
 # Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -52,11 +55,7 @@ rustup default nightly
 rustup default stable
 
 # Rust tools
-cargo install cargo-watch cargo-edit cargo-expand cargo-outdated sqlx-cli 
-
-# Go Lang
-snap install --classic go
-sudo snap install sqlc
+cargo install cargo-watch cargo-edit cargo-expand cargo-outdated sqlx-cli
 
 # Node
 curl https://get.volta.sh | bash
@@ -65,92 +64,141 @@ volta install node@16
 npm i -g npm-check-updates serve netlify-cli yarn typescript pnpm
 
 # Flutter
-sudo snap install flutter --classic
-sudo snap install android-studio --classic
+snap install flutter --classic
+snap install android-studio --classic
 flutter config --enable-windows-desktop
 flutter config --enable-macos-desktop
 flutter config --enable-linux-desktop
 
-# Docker
-sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
-sudo usermod -aG docker $USER
+# Java
+apt-get -y install default-jre
 
-# Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
-# Terminal -> This step is broken!
-sudo apt-get -y install zsh fonts-powerline
-chsh -s $(which zsh)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-git clone https://github.com/denysdovhan/spaceship-prompt.git "~/.oh-my-zsh/custom/themes/spaceship-prompt" --depth=1
-ln -s ~/.oh-my-zsh/themes/spaceship.zsh-theme ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-# Lego ACME Client
-cat >/usr/local/bin/lego <<EOL
-#!/bin/sh
-docker run goacme/lego $@
-EOL
-chmod +x /usr/local/bin/lego
+# Docker Permissions
+addgroup --system docker
+adduser $USER docker
+newgrp docker
+snap disable docker
+snap enable docker
 
 # Configure Firewall
-sudo ufw enable
-sudo ufw allow https
-sudo ufw allow http
-sudo ufw allow ssh
-
-# Hide mounted drives from dock
-dconf write /org/gnome/shell/extensions/dash-to-dock/show-mounts false
-
-# Configure Desktop
-gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
-gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+ufw enable
+ufw allow ssh
 
 # Sound switcher
-sudo add-apt-repository -y ppa:yktooo/ppa
-sudo apt-get -y update
-sudo apt-get install -y indicator-sound-switcher
+add-apt-repository -y ppa:yktooo/ppa
+apt-get install -y indicator-sound-switcher
 
-# Configure Nautilus Sidebar
-# Comment out the unwanted bookmarks in ~/.config/user-dirs.dirs
-echo "enabled=false" > ~/.config/user-dirs.conf
+# Configure tilda to run on startup
+mkdir -p ~/.config/autostart/
+cat >~/.config/autostart/tilda.desktop <<EOL
+[Desktop Entry]
+Type=Application
+Exec=tilda --hidden
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_AU]=Tilda
+Name=Tilda
+Comment[en_AU]=
+Comment=
+EOL
+cp ./tilda_cfg ~/.config/tilda/config_0
+
+# Configure SSH
+mkdir -p ~/.ssh/
+wget -O ~/.ssh/authorized_keys https://otbeaumont.me/keys
+sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+service ssh restart
+
+# Configure GPG
+curl -sSL https://otbeaumont.me/gpg | gpg2 --import -
+echo "enable-ssh-support" > ~/.gnupg/gpg-agent.conf
+
+# Yubikey
+apt-add-repository -y ppa:yubico/stable
+apt-get update
+apt-get -y install yubikey-manager
 
 # Nautilus "Open in Code"
 wget -qO- https://raw.githubusercontent.com/cra0zy/code-nautilus/master/install.sh | bash
 
-# Remove Trash from Desktop
-gsettings set org.gnome.shell.extensions.desktop-icons show-trash false
-gsettings set org.gnome.shell.extensions.desktop-icons show-home false
+# Expose Discord IPC socket from Flatpak
+mkdir -p ~/.config/user-tmpfiles.d
+echo 'L %t/discord-ipc-0 - - - - app/com.discordapp.Discord/discord-ipc-0' > ~/.config/user-tmpfiles.d/discord-rpc.conf
+systemctl --user enable --now systemd-tmpfiles-setup.service
 
-# TODO: Setup ~/.zshrc
-# TODO: Setup ~/.ssh/config
+# Discord Startup
+cat >~/.config/autostart/discord.desktop <<EOL
+[Desktop Entry]
+Type=Application
+Exec=discord --start-minimized
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_AU]=Discord
+Name=Discord
+Comment[en_AU]=
+Comment=
+EOL
 
-# Manual Create DropBox file share
-# Manual Link Google Drive through Ubuntu Settings
+# Slack Startup
+cat >~/.config/autostart/slack.desktop <<EOL
+[Desktop Entry]
+Type=Application
+Exec=slack -u
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_AU]=Slack
+Name=Slack
+Comment[en_AU]=
+Comment=
+EOL
 
-# Manual login to Vscode to sync extensions and settings
+# Caprine Startup
+cat >~/.config/autostart/caprine.desktop <<EOL
+[Desktop Entry]
+Type=Application
+Exec=caprine
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_AU]=Caprine
+Name=Caprine
+Comment[en_AU]=
+Comment=
+EOL
 
-# Manual Configure Dock
-# - Chrome
-# - File Manager
-# - Terminal
-# - Spotify
-# - Discord
+# Terminal
+sudo apt-get -y install zsh fonts-powerline
+chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-# Manual Configure Startup Applications
-# - Discord - discord --start-minimized
-# - Slack - slack -u
-# - Tilda - tilda --hidden
-# - Caprine - caprine
+# Facial Recognition Login
+if [[ $(dmidecode -s system-product-name) = "XPS 13 9310 2-in-1" ]]; then
+    add-apt-repository ppa:boltgolt/howdy
+    apt-get -y install howdy # TODO: Has interactive prompt which will have to be fixed!
+    
+    git clone https://github.com/EmixamPP/linux-enable-ir-emitter.git
+    cd linux-enable-ir-emitter
+    sudo bash installer.sh install
 
-# Manual Setup SSH Keys
-# ssh-keygen -t ed25519 -C "oscar@otbeaumont.me"
+    # TODO: https://github.com/boltgolt/howdy/issues/367
+fi
 
 # Configure non-root port
-sudo sysctl net.ipv4.ip_unprivileged_port_start=443
+sysctl net.ipv4.ip_unprivileged_port_start=443
+
+# Configure Nautilus Sidebar
+echo "enabled=false" > ~/.config/user-dirs.conf # Prevents file being overriden
+
+# TODO: Manual process
+# - Manually login to Vscode to sync extensions and settings
+# - Login to installed applications for accounts (Chrome, Spotify, Bitwarden)
+# - Comment out the unwanted bookmarks in ~/.config/user-dirs.dirs
+# - Configure Syncthing
+# - Setup Frametag email in Thunderbird
+# - Run `sudo linux-enable-ir-emitter configure` and `sudo howdy add`
+# - Run `OTBShared/cfg/apply.sh`
