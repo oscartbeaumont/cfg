@@ -194,6 +194,10 @@ sysctl net.ipv4.ip_unprivileged_port_start=443
 # Configure Nautilus Sidebar
 echo "enabled=false" > ~/.config/user-dirs.conf # Prevents file being overriden
 
+# Shutter
+add-apt-repository -y ppa:shutter/ppa
+apt-get -y install shutter
+
 # TODO: Manual process
 # - Manually login to Vscode to sync extensions and settings
 # - Login to installed applications for accounts (Chrome, Spotify, Bitwarden)
