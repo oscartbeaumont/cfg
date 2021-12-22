@@ -9,10 +9,6 @@
 apt-get update
 apt-get -y upgrade
 
-# Configure Git Identity
-git config --global user.email "oscar@otbeaumont.me"
-git config --global user.name "Oscar Beaumont"
-
 # Install Basic System Tools
 apt-get -y install htop vim git curl build-essential libssl-dev apt-transport-https ca-certificates wavemon tmux gparted snapd openssh-server gnupg2 scdaemon
 
@@ -28,6 +24,7 @@ flatpak install -y --noninteractive flathub com.todoist.Todoist
 flatpak install -y --noninteractive flathub com.slack.Slack
 flatpak install -y --noninteractive flathub md.obsidian.Obsidian
 flatpak install -y --noninteractive flathub org.mozilla.Thunderbird
+flatpak install -y --noninteractive flathub org.videolan.VLC
 
 # Developer Tools
 snap install code --classic
@@ -55,7 +52,7 @@ rustup default nightly
 rustup default stable
 
 # Rust tools
-cargo install cargo-watch cargo-edit cargo-expand cargo-outdated sqlx-cli
+cargo install cargo-watch cargo-edit cargo-expand cargo-outdated sqlx-cli cargo-license cargo-cache
 
 # Node
 curl https://get.volta.sh | bash
@@ -71,7 +68,7 @@ flutter config --enable-macos-desktop
 flutter config --enable-linux-desktop
 
 # Java
-apt-get -y install default-jre
+apt-get -y install default-jdk
 
 # Docker Permissions
 addgroup --system docker
@@ -110,6 +107,14 @@ wget -O ~/.ssh/authorized_keys https://otbeaumont.me/keys
 sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 service ssh restart
 
+# Configure Git Identity
+git config --global user.email "oscar@otbeaumont.me"
+git config --global user.name "Oscar Beaumont"
+git config --global init.defaultBranch main
+git config --global gpg.program gpg2
+git config --global commit.gpgsign true
+git config --global user.signingkey 8F7C4F1C38B77ECB00C7B4389D9D7DA0E7A8E8D4
+
 # Configure GPG
 curl -sSL https://otbeaumont.me/gpg | gpg2 --import -
 echo "enable-ssh-support" > ~/.gnupg/gpg-agent.conf
@@ -122,6 +127,9 @@ apt-get -y install yubikey-manager
 # Nautilus "Open in Code"
 wget -qO- https://raw.githubusercontent.com/cra0zy/code-nautilus/master/install.sh | bash
 
+# Install Playwright browsers
+npx playwright install
+
 # Expose Discord IPC socket from Flatpak
 mkdir -p ~/.config/user-tmpfiles.d
 echo 'L %t/discord-ipc-0 - - - - app/com.discordapp.Discord/discord-ipc-0' > ~/.config/user-tmpfiles.d/discord-rpc.conf
@@ -131,7 +139,7 @@ systemctl --user enable --now systemd-tmpfiles-setup.service
 cat >~/.config/autostart/discord.desktop <<EOL
 [Desktop Entry]
 Type=Application
-Exec=discord --start-minimized
+Exec=flatpak run com.discordapp.Discord --start-minimized
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
@@ -145,7 +153,7 @@ EOL
 cat >~/.config/autostart/slack.desktop <<EOL
 [Desktop Entry]
 Type=Application
-Exec=slack -u
+Exec=flatpak run com.slack.Slack -u
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
@@ -159,7 +167,7 @@ EOL
 cat >~/.config/autostart/caprine.desktop <<EOL
 [Desktop Entry]
 Type=Application
-Exec=caprine
+Exec=flatpak run com.sindresorhus.Caprine
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
@@ -197,6 +205,24 @@ echo "enabled=false" > ~/.config/user-dirs.conf # Prevents file being overriden
 # Shutter
 add-apt-repository -y ppa:shutter/ppa
 apt-get -y install shutter
+
+# Ktunnel (My custom fork)
+git clone https://github.com/oscartbeaumont/ktunnel.git ktunnel
+cd ktunnel/
+CGO_ENABLED=0 go build -ldflags="-s -w"
+mv ./ktunnel /usr/local/bin/ktunnel
+cd ..
+rm -rf ktunnel
+
+# Allow Spotify to access my Soundcloud downloads
+flatpak override --user --filesystem=~/Documents/OTBShared/files/Soundcloud:ro com.spotify.Client
+
+# Configure SWAP
+sudo fallocate -l 8G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
 
 # TODO: Manual process
 # - Manually login to Vscode to sync extensions and settings
